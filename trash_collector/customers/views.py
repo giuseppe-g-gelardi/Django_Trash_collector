@@ -1,6 +1,8 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render
 from .models import Customer
+from django.urls import reverse
+
 # Create your views here.
 
 # TODO: Create a function for each path created in customers/urls.py. Each will need a template as well.
@@ -21,3 +23,17 @@ def index(request):
 
     print(user)
     return render(request, 'customers/index.html')
+
+def weekly_pick_up(request, customer_id):
+    if request.method == 'POST':
+        current_customer = Customer.objects.get(pk=customer_id)
+        current_customer.weekly_pickup_day =  request.POST.get('weekly_pickup_day')
+        current_customer.one_time_pickup = request.POST.get('one_time_pickup')
+        current_customer.save()
+        return HttpResponseRedirect(reverse('customer:index'))    
+    
+    current_customer = Customer.objects.get(pk=customer_id)
+    context = {
+        'current_customer': current_customer
+    }
+    return render(request, "customers/index.html", context)
