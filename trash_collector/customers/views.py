@@ -37,3 +37,7 @@ def weekly_pick_up(request, customer_id):
         'current_customer': current_customer
     }
     return render(request, "customers/index.html", context)
+
+
+# ! web url -> urls.py -> views.py method -> html file
+# ? url -> routes file -> controller file -> view file
