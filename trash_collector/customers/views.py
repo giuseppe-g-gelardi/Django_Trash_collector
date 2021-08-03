@@ -21,3 +21,6 @@ def index(request):
 
     print(user)
     return render(request, 'customers/index.html')
+
+# ! web url -> urls.py -> views.py method -> html file
+# ? url -> routes file -> controller file -> view file

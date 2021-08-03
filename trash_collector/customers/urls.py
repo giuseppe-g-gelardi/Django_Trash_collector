@@ -8,3 +8,7 @@ app_name = "customers"
 urlpatterns = [
     path('', views.index, name="index"),
 ]
+
+
+# ! web url -> urls.py -> views.py method -> html file
+# ? url -> routes file -> controller file -> view file

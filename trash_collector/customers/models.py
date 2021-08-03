@@ -7,3 +7,6 @@ from django.db import models
 class Customer(models.Model):
     name = models.CharField(max_length=50)
     user = models.ForeignKey('accounts.User', blank=True, null=True, on_delete=models.CASCADE)
+
+# ! web url -> urls.py -> views.py method -> html file
+# ? url -> routes file -> controller file -> view file
