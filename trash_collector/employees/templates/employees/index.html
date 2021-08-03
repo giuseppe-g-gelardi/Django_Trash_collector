@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
 
 {% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
@@ -10,4 +11,18 @@
     <a href="{% url 'login' %}">Log In</a>
     <a href="{% url 'accounts:register' %}">Sign Up</a>
   {% endif %}
+=======
+{% extends 'base.html' %}
+
+{% block title %}{% block header %} Employee Home {% endblock %}{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    Hello Employee {{ user.username }}!
+  {% else %}
+    <p>You are at the employee index, but you are not logged in.</p>
+    <a href="{% url 'login' %}">Log In</a>
+    <a href="{% url 'accounts:register' %}">Sign Up</a>
+  {% endif %}
+>>>>>>> a38f4f1bf4be0db1f5cb0096ff369db5cf1d479f
 {% endblock %}
