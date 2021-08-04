@@ -7,13 +7,22 @@
 
 {% block content %}
   {% if user.is_authenticated %}
-    Hello Customer {{ user.username }}!</br>
+    Hello {{ user.username }}!</br>
    
     <form action="{% url 'customers:weekly_pick_up' user.id %}" method="POST">
       <label for="days">Choose what day for standered pick up:</label>  
       
-      <select names="days" id = "days"
+      <select class="form-select">
+      <option >Pick a day</option>
+      <option value = "sunday">Sunday</option>
       <option value = "monday">Monday</option>
+      <option value = "tuesday">Tuesday</option>
+      <option value = "wednesday">Wednesday</option>
+      <option value = "thursday">Thursday</option>
+      <option value = "friday">Friday</option>
+      <option value = "saturday">Saturday</option>
+
+
       </select>
     </form>
   
