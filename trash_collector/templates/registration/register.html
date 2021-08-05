@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends 'base.html' %}
 
 {% block title %} Register Account {% endblock %}
@@ -12,19 +11,4 @@
     {{ form.as_p }}
     <button type="submit">Sign Up</button>
   </form>
-=======
-{% extends 'base.html' %}
-
-{% block title %} Register Account {% endblock %}
-
-{% block header %} Register Account {% endblock %}
-
-{% block content %}
-  <h2>Sign up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign Up</button>
-  </form>
->>>>>>> a38f4f1bf4be0db1f5cb0096ff369db5cf1d479f
 {% endblock %}
