@@ -9,7 +9,3 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('<int:customer_id>/',views.weekly_pick_up,name='weekly_pick_up')
 ]
-
-
-# ! web url -> urls.py -> views.py method -> html file
-# ? url -> routes file -> controller file -> view file
