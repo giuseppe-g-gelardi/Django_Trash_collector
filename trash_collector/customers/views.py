@@ -1,4 +1,3 @@
-# from trash_collector.accounts.models import User
 from django.db import reset_queries
 from django.db.models.fields.related import ForeignKey
 from django.http import HttpResponse
@@ -31,7 +30,7 @@ def weekly_pick_up(request,customers_id ):
     print()
     if request.method == 'POST':
         current_customer = Customer.objects.get(customers_id)
-    current_customer = Customer.objects.get(customers_id)
+
     context = {
         'current_customer': current_customer
     }
