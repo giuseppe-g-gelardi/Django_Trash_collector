@@ -16,6 +16,13 @@ class Customer(models.Model):
     suspend_start = models.DateField(null=True)
     suspend_end = models.DateField(null=True)
 
+class AccountInfo(models.Model):
+    name = models.CharField(max_length=20)
 
+class BudgetInfo(models.Model):
+    user = models.ForeignKey(AccountInfo, on_delete=models.CASCADE)
+    user_budget = models.IntegerField(default=0)
+    expenses = models.IntegerField(default=0)
+    category = models.CharField
 
 
