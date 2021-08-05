@@ -36,3 +36,5 @@ def weekly_pick_up(request,customers_id ):
     }
     return render(request, "customers/index.html", context)
 
+
+
