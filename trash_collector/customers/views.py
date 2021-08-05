@@ -26,11 +26,13 @@ def index(request):
     print(user)
     return render(request,'customers/index.html')
 
-def weekly_pick_up(request,customers_id ):
-    print()
+def weekly_pick_up(request,user ):
     if request.method == 'POST':
-        current_customer = Customer.objects.get(customers_id)
-
+        user = request.user
+        current_customer = Customer.objects.get(user_id=user.id)
+        current_customer.weekly_pickup_day = request.POST.get('weekly_pickup_day')
+        current_customer.save()
+    current_customer = Customer.objects.get(user.id)
     context = {
         'current_customer': current_customer
     }
