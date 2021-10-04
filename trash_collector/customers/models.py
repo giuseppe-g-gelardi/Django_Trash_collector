@@ -1,5 +1,5 @@
+
 from django.db import models
-from django.db.models.fields import DateField, IntegerField
 # Create your models here.
 
 # TODO: Finish customer model by adding necessary properties to fulfill user stories
@@ -7,22 +7,15 @@ from django.db.models.fields import DateField, IntegerField
 
 class Customer(models.Model):
     name = models.CharField(max_length=50)
-    user = models.ForeignKey('accounts.User', blank=True, null=True, on_delete=models.CASCADE)
-    address = models.CharField
-    zipcode = models.CharField
-    weekly_pickup_day = models.CharField
-    one_time_pickup = models.DateField(null=True)
+    user = models.ForeignKey('accounts.User', blank=True, null=True, on_delete=models.PROTECT)
+    weekly_pickup_day = models.CharField(max_length=10, blank=True, null=True)
+    onetime_pickup = models.CharField(max_length=10, blank=True, null=True)
+    start_suspension = models.CharField(max_length=10, blank=True, null=True)
+    end_suspension = models.CharField(max_length=10, blank=True, null=True)
     balance = models.IntegerField(default=0)
-    suspend_start = models.DateField(null=True)
-    suspend_end = models.DateField(null=True)
-
-class AccountInfo(models.Model):
-    name = models.CharField(max_length=20)
-
-class BudgetInfo(models.Model):
-    user = models.ForeignKey(AccountInfo, on_delete=models.CASCADE)
-    user_budget = models.IntegerField(default=0)
-    expenses = models.IntegerField(default=0)
-    category = models.CharField
+    zip_code = models.IntegerField(default=00000, null=True)
+    address = models.CharField(max_length=50, blank=True, null=True)
+    has_suspension = models.BooleanField(default=False)
+    last_confirmed_pickup = models.CharField(max_length=10, blank=True, null=True)
 
 

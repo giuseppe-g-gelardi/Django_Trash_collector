@@ -1,77 +1,87 @@
-from django.db import reset_queries
-from django.db.models.fields.related import ForeignKey
-from django.http import HttpResponse,HttpResponseRedirect
-from django.shortcuts import render
-from .models import BudgetInfo, Customer
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from .models import Customer
 from django.urls import reverse
-# Create your views here.
-
-# TODO: Create a function for each path created in customers/urls.py. Each will need a template as well.
-
+from datetime import date
 
 def index(request):
-    # The following line will get the logged-in in user (if there is one) within any view function
     user = request.user
 
-    try:
-        # This line inside the 'try' will return the customer record of the logged-in user if one exists
-        logged_in_customer = Customer.objects.get(user=user)
+    if not Customer.objects.filter(user_id=user.id).exists():
+        return redirect('create/')
+    else:
+        specific_customer = Customer.objects.get(user_id=user.id)
+        context = {
+            'user': user,
+            'specific_customer': specific_customer
+        }
+        print(user)
+        return render(request, 'customers/index.html', context)
 
-    except:
-      
-        # TODO: Redirect the user to a 'create' function to finish the registration process if no customer record found
-        pass
 
-    # It will be necessary while creating a Customer/Employee to assign request.user as the user foreign key
-    print(user)
-    return render(request,'customers/index.html')
-
-def weekly_pick_up(request,user_id ):
+def create(request):
     if request.method == 'POST':
         user = request.user
-        current_customer = Customer.objects.get(user_id=user.id)
-        current_customer.weekly_pickup_day = request.POST.get('weekly_pickup_day')
-        current_customer.save()
-    current_customer = Customer.objects.get(user.id)
+        name = request.POST.get('name')
+        weekly_pickup_day = request.POST.get('weekly_pickup_day')
+        address = request.POST.get('address')
+        zip_code = request.POST.get('zip_code')
+        one_time_pickup = request.POST.get('one_time_pickup')
+        new_customer = Customer(
+            user_id=request.user.id,
+            name=name,
+            weekly_pickup_day=weekly_pickup_day,
+            onetime_pickup=one_time_pickup,
+            address=address,
+            zip_code=zip_code,
+        )
+        new_customer.save()
+        return HttpResponseRedirect(reverse('customers:index'))
+    else:
+        return render(request, 'customers/create.html')
+
+
+def edit(request, option):
+    specific_option = option
+    user = request.user
+    specific_customer = Customer.objects.get(user_id=user.id)
     context = {
-        'current_customer': current_customer
+        'specific_customer': specific_customer,
+        'specific_option': specific_option
     }
-    return render(request, "customers/index.html", context)
-
-
-
-def one_time_pick_up(request,user ):
     if request.method == 'POST':
-        user = request.user
-        current_customer = Customer.objects.get(user_id=user.id)
-        current_customer.one_time_pickup = request.POST.get('one_time_pickup')
-        current_customer.save()
-        return HttpResponseRedirect(reverse('customers:index'))    
-    current_customer = Customer.objects.get(user.id)
-    context = {
-        'current_customer': current_customer
-    }
-    return render(request, "customers/index.html", context)
+        if specific_option == 1:
+            # Weekly pickup
+            specific_customer.weekly_pickup_day = request.POST.get('weekly_pickup_day')
+            specific_customer.save()
+        elif specific_option == 2:
+            # Suspend account
+            specific_customer.start_suspension = request.POST.get('start_suspension')
+            specific_customer.end_suspension = request.POST.get('end_suspension')
+            specific_customer.save()
+            start = specific_customer.start_suspension
+            end = specific_customer.end_suspension
+            if end > 'today':
+                specific_customer.has_suspension = True
+            elif start > 'today':
+                specific_customer.has_suspension = False
+            elif end == 'today':
+                specific_customer.has_suspension = False
+            else:
+                specific_customer.has_suspension = False
 
+            specific_customer.save()
+        elif specific_option == 3:
+            # Onetime pickup
+            specific_customer.onetime_pickup = request.POST.get('onetime_pickup')
+            specific_customer.save()
+        elif specific_option == 4:
+            # Edit Account Info
+            specific_customer.name = request.POST.get('name')
+            specific_customer.address = request.POST.get('address')
+            specific_customer.zip_code = request.POST.get('zip_code')
+            specific_customer.save()
 
-def account_info(request, user):
-    if request.method == 'POST':
-        current_customer_account_info = Customer.objects.get(user_id=user.id)
-        current_customer_account_info.name = request.POST.get('name')
-        current_customer_account_info.user = request.POST.get('user')
-        current_customer_account_info.address = request.POST.get('address')
-        current_customer_account_info.zipcode = request.POST.get('zipcode')
-        current_customer_account_info.weekly_pickup_day = request.POST.get('weekly_pickup_day') 
-        current_customer_account_info.suspend_start = request.POST.get('suspend_start') 
-        current_customer_account_info.suspend_end = request.POST.get('suspend_end') 
-        current_customer_budget_info = BudgetInfo.objects.get(user_id=user.id)
-        current_customer_budget_info.user_budget = request.POST.get('user_budget')
-        current_customer_budget_info.expenses = request.POST.get('expenses')       
-        current_customer_account_info.save()
-        return HttpResponseRedirect(reverse('customers:index'))    
-    
-    current_customer_account_info = Customer.objects.get(user_id=user.id)
-    context = {
-        'current_customer_account_info': current_customer_account_info
-    }
-    return render(request, 'customers/index.html', context)
+        return HttpResponseRedirect(reverse('customers:index'))
+    else:
+        return render(request, 'customers/edit.html', context)
