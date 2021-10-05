@@ -33,7 +33,24 @@
       </nav>    
     
     {% elif group.name == "Employees" %}
-    <p>Employee Navbar</p>
+      <nav class="">
+        <div class="">
+          <a class="navbar-brand" href="#">Municipal Trash Collection</a>
+          <div class="" id="">
+            <ul class="">
+              <li class="nav-item">
+                <a class=""  href="{% url 'employees:index' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'employees:daily' %}">Weekly View</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     {% endif %}
   {% endfor %}
   <p><a href="{% url 'logout' %}">Log Out</a></p>

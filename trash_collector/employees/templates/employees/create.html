@@ -9,7 +9,7 @@
 <div class="row row-cols-auto d-flex justify-content-center">
   <div class="col"></div>
   <div class="col">
-    <div class="mb-3">
+    <div class="">
       <form class="form-control" action="{% url 'employees:create' %}" method="POST">
       {% csrf_token %}
       Name:<input class="form-control" type="text" name="name" id="name"><br>
