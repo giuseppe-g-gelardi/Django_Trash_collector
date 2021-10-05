@@ -2,23 +2,21 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
 {% if user.is_authenticated %}
   {% for group in user.groups.all%}
     {% if group.name == "Customers" %}
-    {% comment %} <p>Customer Navbar</p> {% endcomment %}
+    <p>Customer Navbar</p>
     {% elif group.name == "Employees" %}
-    {% comment %} <p>Employee Navbar</p> {% endcomment %}
+    <p>Employee Navbar</p>
     {% endif %}
   {% endfor %}
+  <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% endif %}
   <main>
     <h1>{% block header %} {% endblock %}</h1>
-  <p>Not {{user.username.capitalize}}? <a href="{% url 'logout' %}">Log Out</a></p>
-
     {% block content %}
     {% endblock %}
   </main>
