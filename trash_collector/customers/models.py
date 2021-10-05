@@ -6,8 +6,16 @@ from django.db.models.fields import DateField, IntegerField
 
 
 class Customer(models.Model):
+    class PickupDay(models.IntegerChoices):
+        MONDAY = 0
+        TUESDAY = 1
+        WEDNESDAY = 2
+        THURSDAY = 3
+        FRIDAY = 4
+        SATURDAY = 5
+        SUNDAY = 6
     name = models.CharField(max_length=50)
-    user = models.ForeignKey('accounts.User', blank=True, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User', blank=True, null=True,on_delete=models.CASCADE)
     address = models.CharField
     zipcode = models.CharField
     weekly_pickup_day = models.CharField
