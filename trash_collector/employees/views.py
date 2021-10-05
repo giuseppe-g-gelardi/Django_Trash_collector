@@ -27,6 +27,7 @@ def index(request):
         specific_employee = Employees.objects.get(user_id=user.id)
         zip_code_customers = []
         todays_customers = []
+        all_customers= []
         for customer in all_customers:
             if customer.zip_code == specific_employee.zip_code:
                 zip_code_customers.append(customer)
