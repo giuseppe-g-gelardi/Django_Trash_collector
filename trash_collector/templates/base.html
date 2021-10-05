@@ -8,7 +8,30 @@
 {% if user.is_authenticated %}
   {% for group in user.groups.all%}
     {% if group.name == "Customers" %}
-    <p>Customer Navbar</p>
+      <nav class="">
+        <div class="">
+          <div class="" id="">
+            <ul class="">
+              <li class="nav-item">
+                <a class=""  href="{% url 'customers:index' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'customers:edit' 1 %}">Change Weekly Pickup Day</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'customers:edit' 2 %}">Suspend My Account</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'customers:edit' 3 %}">One Time Pickup</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'customers:edit' 4 %}">Edit Account Info</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>    
+    
     {% elif group.name == "Employees" %}
     <p>Employee Navbar</p>
     {% endif %}
